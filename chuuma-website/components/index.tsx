@@ -1,0 +1,11 @@
+export { default as Business } from "./ui/Business/Business";
+export { default as CardDeals } from "./ui/CardDeals/CardDeals";
+export { default as Clients } from "./ui/Clients/Clients";
+export { default as CTA } from "./ui/CTA/CTA";
+export { default as FeedbackCard } from "./ui/FeedbackCard/Feedback";
+export { default as Hero } from "./ui/Hero/Hero";
+export { default as Navbar } from "./ui/Navbar/Navbar";
+export { default as Starts } from "./ui/Starts/Starts";
+export { default as ContactUs } from "./ui/Contact/ContactUs";
+export { default as Footer } from "./ui/Footer/Footer";
+export { default as Services } from "./ui/Services/Services";
