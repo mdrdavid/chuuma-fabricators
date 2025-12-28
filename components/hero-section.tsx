@@ -18,7 +18,7 @@ const slides = [
   },
   {
     image: "/images/hero-workshop.jpg",
-    title: "Trusted in Mityana",
+    title: "Trusted in Uganda and Beyond",
     subtitle: "Serving residential & commercial clients",
   },
 ];
