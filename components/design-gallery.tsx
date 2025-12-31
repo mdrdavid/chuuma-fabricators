@@ -5,7 +5,15 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 import { MessageCircle } from "lucide-react";
 
-const categories = ["All", "Gates", "Doors", "Windows", "Roofing", "Railings"];
+const categories = [
+  "All",
+  "Gates",
+  "Doors",
+  "Windows",
+  "Roofing",
+  "Railings",
+  "Office Furniture",
+];
 
 const designs = [
   {
@@ -42,6 +50,34 @@ const designs = [
     material: "32x32mm Steel",
     price: "UGX 80K - 120K per meter",
     image: "/images/design-railing-balcony.jpg",
+  },
+  {
+    name: "Executive Desk ED-01",
+    category: "Office Furniture",
+    material: "Steel frame with wood top",
+    price: "UGX 600K - 900K",
+    image: "/images/design-office-desk.jpg",
+  },
+  {
+    name: "Filing Cabinet FC-02",
+    category: "Office Furniture",
+    material: "16-gauge steel",
+    price: "UGX 400K - 650K",
+    image: "/images/design-office-cabinet.jpg",
+  },
+  {
+    name: "Office Chair OC-03",
+    category: "Office Furniture",
+    material: "Steel frame with cushioning",
+    price: "UGX 250K - 450K",
+    image: "/images/design-office-chair.jpg",
+  },
+  {
+    name: "Workstation WS-04",
+    category: "Office Furniture",
+    material: "Steel partition system",
+    price: "UGX 1.2M - 1.8M",
+    image: "/images/design-office-workstation.jpg",
   },
   {
     name: "Sliding Gate SG-04",

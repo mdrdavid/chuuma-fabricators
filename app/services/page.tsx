@@ -78,6 +78,19 @@ const services = [
     useCases:
       "Multi-story buildings, balconies, staircases, and outdoor spaces.",
   },
+    {
+    title: "Office Furniture",
+    description: "Durable and stylish metal office furniture designed for comfort, productivity, and longevity.",
+    image: "/images/services-detail-office.jpg",
+    features: [
+      "Office desks & workstations",
+      "Filing cabinets & storage",
+      "Office chairs & seating",
+      "Metal shelving units",
+      "Custom office solutions",
+    ],
+    useCases: "Corporate offices, home offices, schools, government institutions, and commercial spaces.",
+  },
   {
     title: "Custom Metal Works",
     description:
