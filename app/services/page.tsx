@@ -1,122 +1,59 @@
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { Phone, MessageCircle } from "lucide-react";
-import Link from "next/link";
+'use client'
 
-const services = [
-  {
-    title: "Metal Gates",
-    description:
-      "Custom-designed gates for homes, businesses, and estates. From simple swing gates to elaborate automated entrance gates.",
-    image: "/images/services-detail-gates.jpg",
-    features: [
-      "Swing gates",
-      "Sliding gates",
-      "Automated gates",
-      "Pedestrian gates",
-      "Driveway gates",
-    ],
-    useCases:
-      "Residential properties, commercial buildings, estates, and industrial facilities.",
-  },
-  {
-    title: "Metal Doors",
-    description:
-      "Secure and stylish metal doors for interior and exterior applications. Built for maximum security and durability.",
-    image: "/images/services-detail-doors.jpg",
-    features: [
-      "Security doors",
-      "Burglar-proof doors",
-      "Interior metal doors",
-      "Fire-rated doors",
-      "Custom designs",
-    ],
-    useCases: "Homes, offices, shops, warehouses, and high-security areas.",
-  },
-  {
-    title: "Metal Windows",
-    description:
-      "Durable metal window frames and burglar bars that provide security without compromising aesthetics.",
-    image: "/images/services-detail-windows.jpg",
-    features: [
-      "Window frames",
-      "Burglar bars",
-      "Security grilles",
-      "Decorative windows",
-      "Custom patterns",
-    ],
-    useCases:
-      "Residential buildings, commercial properties, and renovation projects.",
-  },
-  {
-    title: "Roofing Solutions",
-    description:
-      "Professional metal roofing installation and fabrication. Long-lasting protection for your property.",
-    image: "/images/services-detail-roofing.jpg",
-    features: [
-      "Iron sheets",
-      "Box profile roofing",
-      "Corrugated sheets",
-      "Ridge capping",
-      "Gutter systems",
-    ],
-    useCases:
-      "New construction, roof replacements, and commercial roofing projects.",
-  },
-  {
-    title: "Railings & Balustrades",
-    description:
-      "Elegant railings for staircases, balconies, and terraces. Safety combined with visual appeal.",
-    image: "/images/services-detail-railings.jpg",
-    features: [
-      "Staircase railings",
-      "Balcony railings",
-      "Terrace barriers",
-      "Decorative balustrades",
-      "Glass & metal combinations",
-    ],
-    useCases:
-      "Multi-story buildings, balconies, staircases, and outdoor spaces.",
-  },
-    {
-    title: "Office Furniture",
-    description: "Durable and stylish metal office furniture designed for comfort, productivity, and longevity.",
-    image: "/images/services-detail-office.jpg",
-    features: [
-      "Office desks & workstations",
-      "Filing cabinets & storage",
-      "Office chairs & seating",
-      "Metal shelving units",
-      "Custom office solutions",
-    ],
-    useCases: "Corporate offices, home offices, schools, government institutions, and commercial spaces.",
-  },
-  {
-    title: "Custom Metal Works",
-    description:
-      "Specialized metal fabrication for unique projects. We bring your custom ideas to life.",
-    image: "/images/services-detail-custom.jpg",
-    features: [
-      "Metal furniture",
-      "Decorative pieces",
-      "Industrial structures",
-      "Repair & modifications",
-      "Special orders",
-    ],
-    useCases:
-      "Unique architectural features, custom furniture, and specialized industrial needs.",
-  },
-];
+import { useEffect, useState } from 'react'
+import Image from 'next/image'
+import { Button } from '@/components/ui/button'
+import { Phone, MessageCircle } from 'lucide-react'
+import Link from 'next/link'
+import { Service } from '@/lib/models'
 
 export default function ServicesPage() {
+  const [services, setServices] = useState<Service[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function fetchServices() {
+      try {
+        const response = await fetch('/api/services')
+        const data = await response.json()
+        setServices(data)
+      } catch (error) {
+        console.error('Failed to fetch services:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchServices()
+  }, [])
+
+  if (loading) {
+    return (
+      <main className="min-h-screen">
+        <section className="bg-charcoal text-white py-16 md:py-24">
+          <div className="container mx-auto px-4 md:px-8 max-w-7xl">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">Our Services</h1>
+            <p className="text-xl text-steel-light max-w-3xl">
+              Comprehensive metal fabrication services for all your residential and commercial needs
+            </p>
+          </div>
+        </section>
+        <section className="py-16 md:py-20">
+          <div className="container mx-auto px-4 md:px-8 max-w-7xl text-center">
+            <p>Loading services...</p>
+          </div>
+        </section>
+      </main>
+    )
+  }
+
   return (
     <main className="min-h-screen">
       <section className="bg-charcoal text-white py-16 md:py-24">
         <div className="container mx-auto px-4 md:px-8 max-w-7xl">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Our Services</h1>
           <p className="text-xl text-steel-light max-w-3xl">
-            Comprehensive metal fabrication services for all your residential
-            and commercial needs
+            Comprehensive metal fabrication services for all your residential and commercial needs
           </p>
         </div>
       </section>
@@ -126,18 +63,12 @@ export default function ServicesPage() {
           <div className="space-y-20">
             {services.map((service, index) => (
               <div
-                key={service.title}
-                className={`grid md:grid-cols-2 gap-12 items-center ${
-                  index % 2 === 1 ? "md:direction-rtl" : ""
-                }`}
+                key={service._id?.toString()}
+                className={`grid md:grid-cols-2 gap-12 items-center ${index % 2 === 1 ? 'md:direction-rtl' : ''}`}
               >
-                <div className={index % 2 === 1 ? "md:order-2" : ""}>
-                  <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                    {service.title}
-                  </h2>
-                  <p className="text-lg text-text-secondary mb-6 leading-relaxed">
-                    {service.description}
-                  </p>
+                <div className={index % 2 === 1 ? 'md:order-2' : ''}>
+                  <h2 className="text-3xl md:text-4xl font-bold mb-4">{service.name}</h2>
+                  <p className="text-lg text-text-secondary mb-6 leading-relaxed">{service.description}</p>
 
                   <div className="mb-6">
                     <h3 className="text-xl font-bold mb-3">What We Offer:</h3>
@@ -156,10 +87,18 @@ export default function ServicesPage() {
                     <p className="text-text-secondary">{service.useCases}</p>
                   </div>
 
+                  {service.pricing && (
+                    <div className="mb-6">
+                      <h3 className="text-xl font-bold mb-2">Pricing Range:</h3>
+                      <p className="text-text-secondary font-semibold text-lg">
+                        UGX {service.pricing.base}K - {service.pricing.max}K
+                      </p>
+                    </div>
+                  )}
+
                   <div className="bg-light-grey p-4 rounded-lg mb-6">
                     <p className="text-sm font-semibold text-charcoal">
-                      ✓ Quality Assurance: All work comes with a satisfaction
-                      guarantee
+                      ✓ Quality Assurance: All work comes with a satisfaction guarantee
                     </p>
                   </div>
 
@@ -180,11 +119,7 @@ export default function ServicesPage() {
                       variant="outline"
                       className="border-industrial-orange text-industrial-orange hover:bg-industrial-orange hover:text-white bg-transparent"
                     >
-                      <a
-                        href="https://wa.me/256705621018"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
+                      <a href="https://wa.me/256705621018" target="_blank" rel="noopener noreferrer">
                         <MessageCircle className="mr-2 h-5 w-5" />
                         WhatsApp Us
                       </a>
@@ -193,13 +128,11 @@ export default function ServicesPage() {
                 </div>
 
                 <div
-                  className={`relative h-96 rounded-lg overflow-hidden shadow-xl ${
-                    index % 2 === 1 ? "md:order-1" : ""
-                  }`}
+                  className={`relative h-96 rounded-lg overflow-hidden shadow-xl ${index % 2 === 1 ? 'md:order-1' : ''}`}
                 >
                   <Image
-                    src={service.image || "/placeholder.svg"}
-                    alt={service.title}
+                    src={service.image || '/placeholder.svg'}
+                    alt={service.name}
                     fill
                     className="object-cover"
                   />
@@ -212,22 +145,13 @@ export default function ServicesPage() {
 
       <section className="bg-industrial-orange text-white py-16 md:py-20">
         <div className="container mx-auto px-4 md:px-8 max-w-7xl text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Ready to Start Your Project?
-          </h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Get in touch with us today for a free consultation and quote
-          </p>
-          <Button
-            asChild
-            size="lg"
-            variant="secondary"
-            className="bg-white text-industrial-orange hover:bg-light-grey"
-          >
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Start Your Project?</h2>
+          <p className="text-xl mb-8 max-w-2xl mx-auto">Get in touch with us today for a free consultation and quote</p>
+          <Button asChild size="lg" variant="secondary" className="bg-white text-industrial-orange hover:bg-light-grey">
             <Link href="/contact">Get A Quote</Link>
           </Button>
         </div>
       </section>
     </main>
-  );
+  )
 }

@@ -1,61 +1,99 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Phone, MessageCircle, MapPin, Clock } from "lucide-react"
-import { useToast } from "@/hooks/use-toast"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Phone, MessageCircle, MapPin, Clock } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 export default function ContactPage() {
-  const { toast } = useToast()
+  const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     service: "",
     message: "",
-  })
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+  const [submitting, setSubmitting] = useState(false);
+  const [email, setEmail] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
     // Basic validation
-    if (!formData.name || !formData.phone || !formData.message) {
+    if (!formData.name || !formData.phone || !formData.message || !email) {
       toast({
         title: "Error",
         description: "Please fill in all required fields",
         variant: "destructive",
-      })
-      return
+      });
+      return;
     }
 
-    // WhatsApp message
-    const whatsappMessage = `Hello Chuuma Fabricators! 
+    setSubmitting(true);
+
+    try {
+      // Save to MongoDB
+      const response = await fetch("/api/contacts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: email,
+          phone: formData.phone,
+          service: formData.service || "General Inquiry",
+          message: formData.message,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to save contact");
+      }
+
+      // WhatsApp message
+      const whatsappMessage = `Hello Chuuma Fabricators! 
 Name: ${formData.name}
+Email: ${email}
 Phone: ${formData.phone}
 Service: ${formData.service || "General Inquiry"}
-Message: ${formData.message}`
+Message: ${formData.message}`;
 
-    const whatsappUrl = `https://wa.me/256705621018?text=${encodeURIComponent(whatsappMessage)}`
-    window.open(whatsappUrl, "_blank")
+      const whatsappUrl = `https://wa.me/256705621018?text=${encodeURIComponent(
+        whatsappMessage
+      )}`;
+      window.open(whatsappUrl, "_blank");
 
-    toast({
-      title: "Success!",
-      description: "Opening WhatsApp to send your inquiry",
-    })
+      toast({
+        title: "Success!",
+        description: "Your inquiry has been saved and WhatsApp opened",
+      });
 
-    // Reset form
-    setFormData({ name: "", phone: "", service: "", message: "" })
-  }
+      // Reset form
+      setFormData({ name: "", phone: "", service: "", message: "" });
+      setEmail("");
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to save your inquiry",
+        variant: "destructive",
+      });
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <main className="min-h-screen">
       <section className="bg-charcoal text-white py-16 md:py-24">
         <div className="container mx-auto px-4 md:px-8 max-w-7xl">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Contact Us</h1>
-          <p className="text-xl text-steel-light">Get in touch for a free consultation and quote</p>
+          <p className="text-xl text-steel-light">
+            Get in touch for a free consultation and quote
+          </p>
         </div>
       </section>
 
@@ -67,41 +105,73 @@ Message: ${formData.message}`
               <h2 className="text-3xl font-bold mb-6">Send Us A Message</h2>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-semibold mb-2">
+                  <label
+                    htmlFor="name"
+                    className="block text-sm font-semibold mb-2"
+                  >
                     Name *
                   </label>
                   <Input
                     id="name"
                     type="text"
                     value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
                     placeholder="Your full name"
                     required
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="phone" className="block text-sm font-semibold mb-2">
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-semibold mb-2"
+                  >
+                    Email *
+                  </label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="your@email.com"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="phone"
+                    className="block text-sm font-semibold mb-2"
+                  >
                     Phone Number *
                   </label>
                   <Input
                     id="phone"
                     type="tel"
                     value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, phone: e.target.value })
+                    }
                     placeholder="+256 XXX XXXXXX"
                     required
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="service" className="block text-sm font-semibold mb-2">
+                  <label
+                    htmlFor="service"
+                    className="block text-sm font-semibold mb-2"
+                  >
                     Service Interested In
                   </label>
                   <select
                     id="service"
                     value={formData.service}
-                    onChange={(e) => setFormData({ ...formData, service: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, service: e.target.value })
+                    }
                     className="w-full px-3 py-2 border border-input rounded-lg bg-background"
                   >
                     <option value="">Select a service</option>
@@ -115,13 +185,18 @@ Message: ${formData.message}`
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-semibold mb-2">
+                  <label
+                    htmlFor="message"
+                    className="block text-sm font-semibold mb-2"
+                  >
                     Message *
                   </label>
                   <Textarea
                     id="message"
                     value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, message: e.target.value })
+                    }
                     placeholder="Tell us about your project..."
                     rows={5}
                     required
@@ -132,9 +207,10 @@ Message: ${formData.message}`
                   type="submit"
                   size="lg"
                   className="w-full bg-industrial-orange hover:bg-industrial-orange-dark text-white"
+                  disabled={submitting}
                 >
                   <MessageCircle className="mr-2 h-5 w-5" />
-                  Send via WhatsApp
+                  {submitting ? "Saving..." : "Send via WhatsApp"}
                 </Button>
               </form>
             </div>
@@ -150,10 +226,16 @@ Message: ${formData.message}`
                   </div>
                   <div>
                     <h3 className="font-bold mb-1">Phone Numbers</h3>
-                    <a href="tel:+256705621018" className="text-text-secondary hover:text-industrial-orange block">
+                    <a
+                      href="tel:+256705621018"
+                      className="text-text-secondary hover:text-industrial-orange block"
+                    >
                       +256 705 621 018
                     </a>
-                    <a href="tel:+256781602071" className="text-text-secondary hover:text-industrial-orange block">
+                    <a
+                      href="tel:+256781602071"
+                      className="text-text-secondary hover:text-industrial-orange block"
+                    >
                       +256 781 602 071
                     </a>
                   </div>
@@ -223,5 +305,5 @@ Message: ${formData.message}`
         </div>
       </section>
     </main>
-  )
+  );
 }

@@ -1,26 +1,44 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { MessageCircle, Star } from "lucide-react";
-
-const popularDesigns = [
-  {
-    name: "Classic Estate Gate",
-    price: "UGX 2M - 3M",
-    image: "/images/popular-estate-gate.jpg",
-  },
-  {
-    name: "Premium Security Door",
-    price: "UGX 1.2M - 1.8M",
-    image: "/images/popular-security-door.jpg",
-  },
-  {
-    name: "Modern Staircase Railing",
-    price: "UGX 100K - 150K/meter",
-    image: "/images/popular-staircase-railing.jpg",
-  },
-];
+import { Design } from "@/lib/models";
 
 export default function PopularDesigns() {
+  const [designs, setDesigns] = useState<Design[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchDesigns() {
+      try {
+        const response = await fetch("/api/designs");
+        const data = await response.json();
+        // Get first 3 designs
+        setDesigns(data.slice(0, 3));
+      } catch (error) {
+        console.error("Failed to fetch designs:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchDesigns();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="py-16 md:py-20 bg-light-grey">
+        <div className="container mx-auto px-4 md:px-8 max-w-7xl">
+          <div className="text-center">
+            <p>Loading popular designs...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="py-16 md:py-20 bg-light-grey">
       <div className="container mx-auto px-4 md:px-8 max-w-7xl">
@@ -33,14 +51,14 @@ export default function PopularDesigns() {
             Customer Favorites
           </h2>
           <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-            Our most requested designs loved by clients across Mityana
+            Our most requested designs loved by clients across Uganda
           </p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
-          {popularDesigns.map((design) => (
+          {designs.map((design) => (
             <div
-              key={design.name}
+              key={design._id?.toString()}
               className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
             >
               <div className="relative h-80">
@@ -57,7 +75,7 @@ export default function PopularDesigns() {
               <div className="p-6">
                 <h3 className="font-bold text-xl mb-2">{design.name}</h3>
                 <p className="text-industrial-orange font-bold text-2xl mb-4">
-                  {design.price}
+                  UGX {design.pricing.base}K - {design.pricing.max}K
                 </p>
                 <Button
                   asChild
