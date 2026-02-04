@@ -21,15 +21,15 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: "Chuuma Fabricators - Quality Metal Works in Mityana | Gates, Doors, Windows & Roofing",
+  title: "Chuuma Fabricators | Best Metal Fabrication in Uganda - Kampala & Mityana",
   description:
-    "Professional metal fabrication in Wabigalo, Mityana. Custom gates, security doors, window frames, roofing solutions, and railings. Quality craftsmanship, competitive prices. Call +256 705 621 018",
+    "Top-rated metal fabrication services in Uganda. We specialize in custom gates, security doors, window frames, roofing, and railings in Kampala, Mityana, and nationwide. Expert welding and quality craftsmanship. Call +256 705 621 018",
   keywords:
-    "metal fabrication Mityana, metal gates Uganda, security doors Mityana, metal windows, roofing solutions, welding services, burglar bars, metal railings, custom metalwork Uganda",
+    "metal fabrication Uganda, metal fabricators Kampala, metal gates Uganda, security doors Mityana, welding services Kampala, metal roofing Uganda, window frames Uganda, burglar bars Kampala, custom metal work Uganda, Chuuma Fabricators, Wabigalo Mityana, metal works Uganda, steel fabrication Kampala, welders in Mityana",
   authors: [{ name: "Chuuma Fabricators" }],
   openGraph: {
-    title: "Chuuma Fabricators - Quality Metal Works in Mityana",
-    description: "Professional metal fabrication services. Custom gates, doors, windows, roofing & more.",
+    title: "Chuuma Fabricators - Quality Metal Works in Uganda",
+    description: "Professional metal fabrication services in Kampala, Mityana, and across Uganda. Custom gates, doors, windows, roofing & more.",
     type: "website",
     locale: "en_UG",
     siteName: "Chuuma Fabricators",
@@ -42,9 +42,9 @@ export const metadata: Metadata = {
     themeColor: "#F59E0B",
   },
   icons: {
-    icon: "/icon.svg",
+    icon: "/chuuma-logo.png",
+    apple: "/chuuma-logo.png",
   },
-    generator: 'v0.app'
 }
 
 export default function RootLayout({

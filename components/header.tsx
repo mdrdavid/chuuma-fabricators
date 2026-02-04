@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { Menu, X, Phone, MessageCircle } from "lucide-react"
 import { Button } from "./ui/button"
 
@@ -32,13 +33,19 @@ export default function Header() {
       <div className="container mx-auto px-4 md:px-8 max-w-7xl">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-industrial-orange rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xl">CF</span>
+          <Link href="/" className="flex items-center gap-3">
+            <div className="relative w-12 h-12">
+              <Image
+                src="/chuuma-logo.png"
+                alt="Chuuma Fabricators Logo"
+                fill
+                className="object-contain"
+                priority
+              />
             </div>
             <div className="hidden sm:block">
-              <div className="text-xl font-bold text-charcoal">Chuuma Fabricators</div>
-              <div className="text-xs text-text-secondary">Quality Metal Works</div>
+              <div className="text-xl font-bold text-charcoal leading-tight">Chuuma Fabricators</div>
+              <div className="text-xs text-text-secondary font-medium tracking-wide">EXCELLENCE IN METAL WORKS</div>
             </div>
           </Link>
 
