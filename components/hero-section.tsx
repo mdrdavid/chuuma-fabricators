@@ -8,18 +8,18 @@ import { Phone, MessageCircle, ChevronLeft, ChevronRight } from "lucide-react";
 const slides = [
   {
     image: "/images/hero-modern-metal-gate.jpg",
-    title: "Quality Metal Fabrication",
-    subtitle: "Custom gates, doors, windows & more",
+    title: "Quality Metal Fabrication in Uganda",
+    subtitle: "Custom gates, doors, windows & more in Kampala and Mityana",
   },
   {
     image: "/images/hero-security-door.jpg",
-    title: "Built to Last",
-    subtitle: "Premium materials, expert craftsmanship",
+    title: "Built to Last & Secure",
+    subtitle: "Premium metal work for your safety and peace of mind",
   },
   {
     image: "/images/hero-workshop.jpg",
-    title: "Trusted in Uganda and Beyond",
-    subtitle: "Serving residential & commercial clients",
+    title: "Trusted Ugandan Metal Works",
+    subtitle: "Serving residential & commercial clients across the country",
   },
 ];
 
