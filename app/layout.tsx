@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   description:
     "Top-rated metal fabrication services in Uganda. We specialize in custom gates, security doors, window frames, roofing, and railings in Kampala, Mityana, and nationwide. Expert welding and quality craftsmanship. Call +256 705 621 018",
   keywords:
-    "metal fabrication Uganda, metal fabricators Kampala, metal gates Uganda, security doors Mityana, welding services Kampala, metal roofing Uganda, window frames Uganda, burglar bars Kampala, custom metal work Uganda, Chuuma Fabricators, Wabigalo Mityana, metal works Uganda, steel fabrication Kampala, welders in Mityana",
+    "metal fabrication Uganda, metal fabricators Kampala, metal welding, metal gates Uganda, security doors Mityana, welding services Kampala, metal roofing Uganda, window frames Uganda, burglar bars Kampala, custom metal work Uganda, Chuuma Fabricators, Wabigalo Mityana, metal works Uganda, steel fabrication Kampala, welders in Mityana",
   authors: [{ name: "Chuuma Fabricators" }],
   openGraph: {
     title: "Chuuma Fabricators - Quality Metal Works in Uganda",
@@ -39,7 +39,6 @@ export const metadata: Metadata = {
     initialScale: 1,
     maximumScale: 5,
     userScalable: true,
-    themeColor: "#F59E0B",
   },
   icons: {
     icon: "/chuuma-logo.png",
@@ -54,6 +53,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${poppins.variable} ${inter.variable}`}>
+      <head>
+        <meta name="theme-color" content="#F59E0B" />
+      </head>
       <body className="font-sans antialiased">
         <Header />
         {children}
